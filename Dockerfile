@@ -18,7 +18,7 @@ RUN mkdir -p $SRC_DIR \
       readline \
       curl \
       libgcc \
-      # unzip \
+      unzip \
       libstdc++ \
 # Temporary installing build dependencies for openresty and luarocks
 &&  apk --no-cache add --virtual build-dependencies \
