@@ -20,6 +20,7 @@ RUN mkdir -p $SRC_DIR \
       libgcc \
       unzip \
       libstdc++ \
+      openssl \
 # Temporary installing build dependencies for openresty and luarocks
 &&  apk --no-cache add --virtual build-dependencies \
       build-base \
@@ -29,6 +30,7 @@ RUN mkdir -p $SRC_DIR \
       curl-dev \
       perl \
       pcre-dev \
+      openssl-dev \
 &&  cd $SRC_DIR \
 # Installing LuaJIT
 &&  curl -LO http://luajit.org/download/LuaJIT-$LUA_JIT_VERSION.tar.gz \
@@ -54,9 +56,13 @@ RUN mkdir -p $SRC_DIR \
 &&  make install \
 &&  cd $SRC_DIR \
 &&  rm -rf luarocks-$LUAROCKS_VERSION* \
+# Installing luasec as it commonly used by luarocks for packages on github
+&&  luarocks install luasocket \
+&&  luarocks install luasec \
 # Installing Penlight "batteries"
 &&  luarocks install luafilesystem \
 &&  luarocks install penlight \
+# Installing Lrexlib regex library with PCRE flavour
 &&  luarocks install lrexlib-pcre \
 &&  apk del build-dependencies
 
